@@ -17,7 +17,8 @@ const steps = [
   // 1 十字 / X
   {
     render() {
-      mainText.innerText = "分身配置\n十字 or X字";
+      mainText.innerHTML = "分身配置<br>十字 or X字";
+      mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "十字", value: "十字" },
         { label: "X字", value: "X字" }
@@ -28,11 +29,12 @@ const steps = [
   // 2 入れ替え + 詠唱安置
   {
     render() {
-      mainText.innerText =
+      mainText.innerHTML =
         "" +
-        "1 ↔ B / 4 ↔ C\n\n\n" +
-        "マーカー付与\n\n" +
+        "1 ↔ B / 4 ↔ C<br><br><br>" +
+        "マーカー付与<br><br>" +
         "詠唱完了の安置は？";
+      mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "12 安置", value: "12" },
         { label: "34 安置", value: "34" }
@@ -43,7 +45,8 @@ const steps = [
   // 3 Aマーカー 即行動
   {
     render() {
-      mainText.innerText = "Aマーカーの線は？";
+      mainText.innerHTML = "Aマーカーの線は？";
+      mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "円：入れ替え", value: "円" },
         { label: "頭：そのまま", value: "頭割り" }
@@ -54,11 +57,12 @@ const steps = [
   // 4 詠唱完了 → 安置 → 島分断 → 塔
   {
     render() {
-      mainText.innerText =
+      mainText.innerHTML =
         "" +
-        `${mem.safe} 安置へ\n\n` +
-        "島分断 ST組 B 島\n\n" +
+        `${mem.safe} 安置へ<br><br>` +
+        "島分断 ST組 B 島<br><br>" +
         "踏む塔を確認";
+      mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "🔥", value: "炎" },
         { label: "🌰", value: "タケノコ" },
@@ -72,16 +76,17 @@ const steps = [
   {
     render() {
       const seq = mem.first === "円"
-        ? "① 円C (ｽﾄｯﾌﾟ1,ｱﾀｯｸ1)\n② 頭 4 / 3 \n③ 円C (ｽﾄｯﾌﾟ2,ｱﾀｯｸ2)\n④ 頭 4 / 3 "
-        : "① 頭 4 / 3 \n② 円C (ｽﾄｯﾌﾟ1,ｱﾀｯｸ1)\n③ 頭 4 / 3 \n④ 円C (ｽﾄｯﾌﾟ2,ｱﾀｯｸ2)";
+        ? "① 円C (ｽﾄｯﾌﾟ１,ｱﾀｯｸ１)<br>② 頭 4 / 3 <br>③ 円C (ｽﾄｯﾌﾟ２,ｱﾀｯｸ２)<br>④ 頭 4 / 3 "
+        : "① 頭 4 / 3 <br>② 円C (ｽﾄｯﾌﾟ1,ｱﾀｯｸ1)<br>③ 頭 4 / 3 <br>④ 円C (ｽﾄｯﾌﾟ2,ｱﾀｯｸ2)";
 
-      mainText.innerText =
-      "🚫ｽﾄｯﾌﾟ1とｱﾀｯｸ１は注意！\n\n" +
+      mainText.innerHTML =
+      "🚫ｽﾄｯﾌﾟ１とｱﾀｯｸ１は注意！<br><br>" +
       seq +
-      "\n\n" +
-      "ST組 B 島移動\n" +
-      "踏む塔：" + towerIcon[mem.tower] + "\n\n" +
+      "<br><br>" +
+      "ST組 B 島移動<br>" +
+      "踏む塔：" + towerIcon[mem.tower] + "<br><br>" +
       "吸い込まれた分身は？";
+      mainText.innerHTML = colorize(mainText.innerHTML);
 
       show([
         { label: "A 吸い込み", value: "北" },
@@ -93,8 +98,9 @@ const steps = [
   // 6 中央南寄り分身
   {
     render() {
-      mainText.innerText =
-        "中央南寄り分身\n移動先は？";
+      mainText.innerHTML =
+        "中央南寄り分身<br>移動先は？";
+      mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "B島", value: "B" },
         { label: "D島", value: "D" }
@@ -140,18 +146,19 @@ const steps = [
         fanSafe = mem.safe === "12" ? "ボス下安置" : "12安置";
       }
 
-      mainText.innerText =
-      `【最終処理】
+      mainText.innerHTML =
+      `【最終処理】<br><br>
 
-      ${firstHead}
+      ${firstHead}<br><br>
 
-      ${islandMove}
-      ${islandSafe}
+      ${islandMove}<br>
+      ${islandSafe}<br><br>
 
-      ${secondHead}
+      ${secondHead}<br><br>
 
-      最後の扇範囲
+      最後の扇範囲<br>
       ${fanSafe}`;
+      mainText.innerHTML = colorize(mainText.innerHTML);
     }
   }
 ];
@@ -160,22 +167,38 @@ function show(list, onSelect) {
   buttons.innerHTML = "";
   list.forEach(opt => {
     const b = document.createElement("button");
-    b.innerText = opt.label;
+    b.innerHTML = colorize(opt.label);
     b.onclick = () => {
       onSelect(opt.value);
-      history.innerText += opt.label + " ";
+      history.innerHTML += opt.label + " ";
       step++;
       steps[step].render();
     };
     buttons.appendChild(b);
   });
 }
+function colorize(text) {
+  return text
+    // 1 / A → 赤
+    .replace(/1|A/g, '<span class="c-red">$&</span>')
+    // 2 / B → 黄
+    .replace(/2|B/g, '<span class="c-yellow">$&</span>')
+    // 3 / C → 青
+    .replace(/3|C/g, '<span class="c-blue">$&</span>')
+    // 4 / D → 紫
+    .replace(/4|D/g, '<span class="c-purple">$&</span>');
+
+}
+
+
 
 resetBtn.onclick = () => {
   step = 0;
   mem = {};
-  history.innerText = "";
+  history.innerHTML = "";
   steps[0].render();
 };
 
 steps[0].render();
+
+

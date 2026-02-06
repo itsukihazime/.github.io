@@ -63,3 +63,13 @@ body {
   border: none;
   border-radius: 8px;
 }
+
+.c-red { color: #ff4d4d; font-weight: 700; }
+.c-yellow { color: #ffd43b; font-weight: 700; }
+.c-blue { color: #4dabf7; font-weight: 700; }
+.c-purple { color: #b197fc; font-weight: 700; }
+
+.block {
+  margin-bottom: 1em;
+  line-height: 1.4;
+}
