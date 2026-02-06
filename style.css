@@ -73,3 +73,62 @@ body {
   margin-bottom: 1em;
   line-height: 1.4;
 }
+
+.role-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6%;
+  margin: 4% 0;
+}
+
+.role-label {
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.switch {
+  position: relative;
+  width: 18%;
+  height: 2.2em;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  padding: 0.2em;
+  background-color: #555;
+  border-radius: 2em;
+  transition: background-color 0.2s;
+}
+
+.slider:before {
+  content: "";
+  width: 1.7em;
+  height: 1.7em;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+/* OFF（MT） */
+.switch input + .slider {
+  justify-content: flex-start;
+}
+
+/* ON（ST） */
+.switch input:checked + .slider {
+  justify-content: flex-end;
+  background-color: #4dabf7;
+}
+
+
+.hidden {
+  display: none;
+}

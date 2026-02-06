@@ -1,6 +1,7 @@
 const mainText = document.getElementById("mainText");
 const buttons = document.getElementById("buttons");
 const history = document.getElementById("history");
+const roleSwitch = document.getElementById("roleSwitch");
 const resetBtn = document.getElementById("resetBtn");
 
 const towerIcon = {
@@ -23,7 +24,8 @@ const steps = [
         { label: "十字", value: "十字" },
         { label: "X字", value: "X字" }
       ], v => mem.shape = v);
-    }
+    },
+
   },
 
   // 2 入れ替え + 詠唱安置
@@ -33,12 +35,13 @@ const steps = [
         "" +
         "1 ↔ B / 4 ↔ C<br><br><br>" +
         "マーカー付与<br><br>" +
-        "詠唱完了の安置は？";
+        "扇範囲の安置は？";
       mainText.innerHTML = colorize(mainText.innerHTML);
       show([
         { label: "12 安置", value: "12" },
         { label: "34 安置", value: "34" }
-      ], v => mem.safe = v);
+      ], v => mem.safe = v),
+      roleToggle.classList.add("hidden");
     }
   },
 
@@ -57,10 +60,14 @@ const steps = [
   // 4 詠唱完了 → 安置 → 島分断 → 塔
   {
     render() {
+      const selectIsland = roleSwitch.checked === true
+        ? "島分断 ST組 B 島"
+        : "島分断 MT組 D 島";
+
       mainText.innerHTML =
         "" +
         `${mem.safe} 安置へ<br><br>` +
-        "島分断 ST組 B 島<br><br>" +
+        `${selectIsland}<br><br>` +
         "踏む塔を確認";
       mainText.innerHTML = colorize(mainText.innerHTML);
       show([
@@ -77,13 +84,17 @@ const steps = [
     render() {
       const seq = mem.first === "円"
         ? "① 円C (ｽﾄｯﾌﾟ１,ｱﾀｯｸ１)<br>② 頭 4 / 3 <br>③ 円C (ｽﾄｯﾌﾟ２,ｱﾀｯｸ２)<br>④ 頭 4 / 3 "
-        : "① 頭 4 / 3 <br>② 円C (ｽﾄｯﾌﾟ1,ｱﾀｯｸ1)<br>③ 頭 4 / 3 <br>④ 円C (ｽﾄｯﾌﾟ2,ｱﾀｯｸ2)";
+        : "① 頭 4 / 3 <br>② 円C (ｽﾄｯﾌﾟ１,ｱﾀｯｸ１)<br>③ 頭 4 / 3 <br>④ 円C (ｽﾄｯﾌﾟ２,ｱﾀｯｸ２)";
+
+      const selectIsland = roleSwitch.checked === true
+        ? "島分断 ST組 B 島"
+        : "島分断 MT組 D 島";
 
       mainText.innerHTML =
       "🚫ｽﾄｯﾌﾟ１とｱﾀｯｸ１は注意！<br><br>" +
       seq +
       "<br><br>" +
-      "ST組 B 島移動<br>" +
+      `${selectIsland}移動<br>` +
       "踏む塔：" + towerIcon[mem.tower] + "<br><br>" +
       "吸い込まれた分身は？";
       mainText.innerHTML = colorize(mainText.innerHTML);
@@ -114,10 +125,12 @@ const steps = [
     buttons.innerHTML = "";
 
       // ① 最初の頭割りマーカー
-      const firstHead =
-        mem.shape === "十字"
-          ? "頭割り：ST組 D"
-          : "頭割り：ST組 4";
+      let firstHead = "";
+        if (mem.shape === "十字") {
+          firstHead = roleSwitch.checked === true ? "頭割り：ST組 D" : "頭割り：MT組 A";
+        } else {
+          firstHead = roleSwitch.checked === true ? "頭割り：ST組 4" : "頭割り：MT組 1";
+        }
 
       // ② 島移動
       const islandMove =
@@ -133,10 +146,12 @@ const steps = [
           : "安置：タゲサ内";
 
       // ④ 次の頭割りマーカー（①と逆）
-      const secondHead =
-        mem.shape === "十字"
-          ? "頭割り：ST組 4"
-          : "頭割り：ST組 D";
+      let secondHead = "";
+        if (mem.shape === "十字") {
+          secondHead = roleSwitch.checked === true ? "頭割り：ST組 4" : "頭割り：MT組 1";
+        } else {
+          secondHead = roleSwitch.checked === true ? "頭割り：ST組 D" : "頭割り：MT組 A";
+        }
 
       // ⑤ 最後の扇範囲安置
       let fanSafe = "";
@@ -196,9 +211,10 @@ resetBtn.onclick = () => {
   step = 0;
   mem = {};
   history.innerHTML = "";
+  roleToggle.classList.remove("hidden");
   steps[0].render();
 };
 
+roleToggle.classList.remove("hidden");
 steps[0].render();
-
 
