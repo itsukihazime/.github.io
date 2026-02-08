@@ -51,8 +51,8 @@ const steps = [
       mainText.innerHTML = "Aマーカーの線は？";
       mainText.innerHTML = colorize(mainText.innerHTML);
       show([
-        { label: "円：入れ替え", value: "円" },
-        { label: "頭：そのまま", value: "頭割り" }
+        { label: "頭：そのまま", value: "頭割り" },
+        { label: "円：入れ替え", value: "円" }
       ], v => mem.first = v);
     }
   },
