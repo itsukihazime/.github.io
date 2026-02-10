@@ -131,4 +131,11 @@ body {
 
 .hidden {
   display: none;
+
+}
+
+#mainText {
+  font-size: clamp(1rem, 4.5vw, 1.4rem);
+  line-height: 1.4;
+  word-break: keep-all;
 }
