@@ -135,10 +135,11 @@ body {
 }
 
 #mainText {
-  font-size: clamp(1.1rem, 5.5vh, 1.6rem);
+  font-size: clamp(1.1rem, 5.2svh, 1.6rem);
   line-height: 1.35;
   word-break: keep-all;
 }
+
 
 
 
