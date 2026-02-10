@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: system-ui, sans-serif;
 }
 
@@ -15,6 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden; /* スクロール禁止 */
   padding: 4%;
 }
 
@@ -139,6 +141,7 @@ body {
   line-height: 1.35;
   word-break: keep-all;
 }
+
 
 
 
